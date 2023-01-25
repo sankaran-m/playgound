@@ -16,7 +16,7 @@ jobs:
 
       - name: Packing release
         run: |
-          zip --junk-paths playground-artifacts *
+          zip --junk-paths playground-${{ github.ref }} ./*
 
       - name: Create release
         id: create-release
