@@ -7,6 +7,7 @@ on:
 
 jobs:
   release:
+    permissions: read-all|write-all
     runs-on: ubuntu-latest
     name: Release
     steps:
@@ -19,7 +20,7 @@ jobs:
 
       - name: Create release
         id: create-release
-        uses: actions/create-release@v2
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
