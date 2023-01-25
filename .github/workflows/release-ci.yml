@@ -2,10 +2,8 @@ name: release
 
 on:
   push:
-    branches: "release/*"
-
-permissions:
-  contents: read
+    tags:
+      - 'v*'
 
 jobs:
   release:
@@ -18,14 +16,7 @@ jobs:
 
       - name: Packing release
         run: |
-          base_dir=${PWD}
-          password='password'
-          branch_name=$(git symbolic-ref -q HEAD)
-          branch_name=${branch_name##refs/heads/}
-          branch_name=${branch_name:-HEAD}
-          branch_name=${branch_name//\//_}
           
-          echo "Preparing folder for copying.."
           git pull >/dev/null
           git clean -xfdf >/dev/null
           git submodule foreach --recursive git clean -xfd >/dev/null
@@ -34,34 +25,16 @@ jobs:
           git submodule foreach --recursive git reset --hard >/dev/null
           git submodule update --init --recursive >/dev/null
           
-          if [ -d "$base_dir"/"$branch_name" ]; then
-          echo "Removing patch destination folder"
-          rm -r "$base_dir"/"$branch_name"
-          echo "Patch destination folder removed"
-          fi
+          rm -rf ".git"
+          rm -f "flyway.conf"
+          rm -f "config.php"
+          rm -f "config-analytics.php"
+          rm -f "config-dist.php"
+          rm -f "config-extra.php"
+          rm -f "config-unittest.php"
+          find -type f -name "*.config" -delete
           
-          echo "Copying.."
-          cp -r "$base_dir"/"$folder" "$base_dir"/"$branch_name"
-          
-          echo "Removing configs.."
-          cd ..
-          rm -rf "$branch_name"/".git"
-          rm -f "$branch_name"/"flyway.conf"
-          rm -f "$branch_name"/"config.php"
-          rm -f "$branch_name"/"config-analytics.php"
-          rm -f "$branch_name"/"config-dist.php"
-          rm -f "$branch_name"/"config-extra.php"
-          rm -f "$branch_name"/"config-unittest.php"
-          find "$branch_name" -type f -name "*.config" -delete
-          
-          echo "Zipping folder.."
-          cd $branch_name
-          zip -P "$password" -r "$base_dir"/"$branch_name"".zip" ./* >/dev/null
-          
-          echo "Cleaning up.."
-          rm -rf "$base_dir"/"$branch_name"
-          
-          echo "Copied and removed configs. Password for the file is ${password}";
+          zip -r playground.zip * >/dev/null
 
       - name: Create release
         id: create-release
