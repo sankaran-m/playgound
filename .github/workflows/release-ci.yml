@@ -37,5 +37,5 @@ jobs:
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: ./playground.zip
-          asset_name: playground.zip
+          asset_name: Release ${{ github.ref }}.zip
           asset_content_type: application/zip
