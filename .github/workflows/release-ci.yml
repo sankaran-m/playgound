@@ -17,8 +17,6 @@ jobs:
       - name: Packing release
         run: |
           
-          git pull >/dev/null
-          git clean -xfdf >/dev/null
           git submodule foreach --recursive git clean -xfd >/dev/null
           git reset --hard >/dev/null
           git submodule sync >/dev/null
