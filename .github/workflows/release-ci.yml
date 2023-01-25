@@ -18,7 +18,7 @@ jobs:
         env:
           REF: ${{ github.ref }}
         run: |
-          zip -r playground-${{ REF }}.zip *
+          zip -r playground-${REF}.zip *
 
       - name: Create release
         id: create-release
