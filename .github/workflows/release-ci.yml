@@ -16,7 +16,7 @@ jobs:
 
       - name: Packing release
         run: |
-          zip -r playground.zip ./*
+          zip -r playground.zip *
 
       - name: Create release
         id: create-release
