@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "io.techcms.playground.name",
+      "type": "java.lang.String",
+      "description": "Description for io.techcms.playground.name."
+  }
+] }
