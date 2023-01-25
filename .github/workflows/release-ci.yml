@@ -15,8 +15,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Packing release
+        env:
+          REF: ${{ github.ref }}
         run: |
-          zip -r playground-${{ github.ref }}.zip ./*
+          zip -r playground-${{ REF }}.zip *
 
       - name: Create release
         id: create-release
